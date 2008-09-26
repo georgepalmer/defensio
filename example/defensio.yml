@@ -1,0 +1,13 @@
+development:
+  api_key: 1234abc
+  owner_url: http://code.macournoyer.com/svn/plugins/defensio
+
+test:
+  api_key: 1234abc
+  owner_url: http://code.macournoyer.com/svn/plugins/defensio
+  # Skip validation of the API key
+  validate_key: false
+
+production:
+  api_key: 6789xyz
+  owner_url: http://code.macournoyer.com/svn/plugins/defensio

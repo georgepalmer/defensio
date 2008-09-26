@@ -1,0 +1,37 @@
+== Defensio
+
+Defensio is a service that checks your comments for spam in the context of the article they are posted against.  Although initially designed for blogs it can be used on other sites where comments are used.
+
+This is a fork by George Palmer (http://rowtheboat.com) of the original Defensio plugin by Marc-Andre Cournoyer (http://macournoyer.wordpress.com/) that only validates the API key when a new article or comment is created.  This is more advantageous than the previous approach of validating the key each time a new instance of the model is created as it means less Defensio web service calls.  Consequently models using the defensio plugin load faster and should Defensio be experiencing downtime, then only the controller actions that create articles or comments will be effected.
+
+=== Installation
+
+1. Install the plugin from github
+2. Get an API key at http://defensio.com and dump it in config/defensio.yml
+3. Add new column to your spammable model
+  script/generate defensio_migration comment
+
+You're ready to go!
+
+=== Usage
+
+In your "article" class, add:
+
+  acts_as_defensio_article
+
+In your "comment" class, add:
+
+  acts_as_defensio_comment :fields => { :content => :comment }
+
+The :fields option allows you to configure fields that are sent
+to Defensio to classify a comment.
+
+Look at Defensio::Client for a list of all those fields.
+
+In the controller, before creating a comment set the request environment variables:
+  @comment.env = request.env
+
+Then when the comment is created the +spam+, +spaminess+ and +signature+
+columns will magically be set for your own pleasure.
+
+Check out other examples in http://code.macournoyer.com/svn/plugins/defensio/example
